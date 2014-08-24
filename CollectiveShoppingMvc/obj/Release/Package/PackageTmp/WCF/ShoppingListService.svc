@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="CollectiveShoppingMvc.WCF.ShoppingListService" CodeBehind="ShoppingListService.svc.cs" %>

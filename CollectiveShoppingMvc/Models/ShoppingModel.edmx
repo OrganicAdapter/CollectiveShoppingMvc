@@ -1,0 +1,249 @@
+﻿<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+<!-- EF Runtime content -->
+<edmx:Runtime>
+<!-- SSDL content -->
+<edmx:StorageModels>
+<Schema Namespace="ShoppingModelModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ShoppingModelModelStoreContainer">
+    <EntitySet Name="ShopSet" EntityType="ShoppingModelModel.Store.ShopSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductSet" EntityType="ShoppingModelModel.Store.ProductSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CategorySet" EntityType="ShoppingModelModel.Store.CategorySet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ShopProduct" Association="ShoppingModelModel.Store.ShopProduct">
+      <End Role="Shop" EntitySet="ShopSet" />
+      <End Role="Product" EntitySet="ProductSet" />
+    </AssociationSet>
+    <AssociationSet Name="ShopCategory" Association="ShoppingModelModel.Store.ShopCategory">
+      <End Role="Shop" EntitySet="ShopSet" />
+      <End Role="Category" EntitySet="CategorySet" />
+    </AssociationSet>
+    <AssociationSet Name="ProductCategory" Association="ShoppingModelModel.Store.ProductCategory">
+      <End Role="Product" EntitySet="ProductSet" />
+      <End Role="Category" EntitySet="CategorySet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ShopSet">
+    <Key>
+      <PropertyRef Name="ShopId" />
+    </Key>
+    <Property Name="ShopId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="Culture" Type="nvarchar" Nullable="false" />
+    <Property Name="IsEnabled" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductSet">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="Unit" Type="nvarchar" Nullable="false" />
+    <Property Name="Date" Type="nvarchar" Nullable="false" />
+    <Property Name="Price" Type="float" Nullable="false" />
+    <Property Name="UnitQuantity" Type="float" Nullable="false" />
+    <Property Name="IsEnabled" Type="bit" Nullable="false" />
+    <Property Name="ShopId" Type="int" Nullable="false" />
+    <Property Name="CategoryId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CategorySet">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="IsEnabled" Type="bit" Nullable="false" />
+    <Property Name="ShopId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ShopProduct">
+    <End Role="Shop" Type="ShoppingModelModel.Store.ShopSet" Multiplicity="1" />
+    <End Role="Product" Type="ShoppingModelModel.Store.ProductSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shop">
+        <PropertyRef Name="ShopId" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ShopId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ShopCategory">
+    <End Role="Shop" Type="ShoppingModelModel.Store.ShopSet" Multiplicity="1" />
+    <End Role="Category" Type="ShoppingModelModel.Store.CategorySet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shop">
+        <PropertyRef Name="ShopId" />
+      </Principal>
+      <Dependent Role="Category">
+        <PropertyRef Name="ShopId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductCategory">
+    <End Role="Product" Type="ShoppingModelModel.Store.ProductSet" Multiplicity="*" />
+    <End Role="Category" Type="ShoppingModelModel.Store.CategorySet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+<!-- CSDL content -->
+<edmx:ConceptualModels>
+<Schema Namespace="ShoppingModelModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ShoppingModelEntities" p1:LazyLoadingEnabled="true" >
+          <EntitySet Name="ShopSet" EntityType="ShoppingModelModel.Shop" />
+          <EntitySet Name="ProductSet" EntityType="ShoppingModelModel.Product" />
+          <AssociationSet Name="ShopProduct" Association="ShoppingModelModel.ShopProduct">
+            <End Role="Shop" EntitySet="ShopSet" />
+            <End Role="Product" EntitySet="ProductSet" />
+          </AssociationSet>
+          <EntitySet Name="CategorySet" EntityType="ShoppingModelModel.Category" />
+          <AssociationSet Name="ShopCategory" Association="ShoppingModelModel.ShopCategory">
+            <End Role="Shop" EntitySet="ShopSet" />
+            <End Role="Category" EntitySet="CategorySet" />
+          </AssociationSet>
+          <AssociationSet Name="ProductCategory" Association="ShoppingModelModel.ProductCategory">
+            <End Role="Product" EntitySet="ProductSet" />
+            <End Role="Category" EntitySet="CategorySet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Shop">
+          <Key>
+            <PropertyRef Name="ShopId" />
+          </Key>
+          <Property Name="ShopId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Culture" Type="String" Nullable="false" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="ShoppingModelModel.ShopProduct" FromRole="Shop" ToRole="Product" />
+          <NavigationProperty Name="Categories" Relationship="ShoppingModelModel.ShopCategory" FromRole="Shop" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Unit" Type="String" Nullable="false" />
+          <Property Name="Date" Type="String" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="UnitQuantity" Type="Double" Nullable="false" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Shop" Relationship="ShoppingModelModel.ShopProduct" FromRole="Product" ToRole="Shop" />
+          <Property Name="ShopId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="ShoppingModelModel.ProductCategory" FromRole="Product" ToRole="Category" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          </EntityType>
+        <Association Name="ShopProduct">
+          <End Type="ShoppingModelModel.Shop" Role="Shop" Multiplicity="1" />
+          <End Type="ShoppingModelModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shop">
+              <PropertyRef Name="ShopId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ShopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Shop" Relationship="ShoppingModelModel.ShopCategory" FromRole="Category" ToRole="Shop" />
+          <Property Name="ShopId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="ShoppingModelModel.ProductCategory" FromRole="Category" ToRole="Product" />
+        </EntityType>
+        <Association Name="ShopCategory">
+          <End Type="ShoppingModelModel.Shop" Role="Shop" Multiplicity="1" />
+          <End Type="ShoppingModelModel.Category" Role="Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shop">
+              <PropertyRef Name="ShopId" />
+            </Principal>
+            <Dependent Role="Category">
+              <PropertyRef Name="ShopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProductCategory">
+          <End Type="ShoppingModelModel.Product" Role="Product" Multiplicity="*" />
+          <End Type="ShoppingModelModel.Category" Role="Category" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+</Schema>
+</edmx:ConceptualModels>
+<!-- C-S mapping content -->
+<edmx:Mappings>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ShoppingModelModelStoreContainer" CdmEntityContainer="ShoppingModelEntities">
+    <EntitySetMapping Name="ShopSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ShoppingModelModel.Shop)">
+        <MappingFragment StoreEntitySet="ShopSet">
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Culture" ColumnName="Culture" />
+          <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ShoppingModelModel.Product)">
+        <MappingFragment StoreEntitySet="ProductSet">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Unit" ColumnName="Unit" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="UnitQuantity" ColumnName="UnitQuantity" />
+          <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CategorySet">
+      <EntityTypeMapping TypeName="IsTypeOf(ShoppingModelModel.Category)">
+        <MappingFragment StoreEntitySet="CategorySet">
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+</edmx:Runtime>
+<!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+<edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+<Connection><DesignerInfoPropertySet><DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" /></DesignerInfoPropertySet></Connection>
+<edmx:Options><DesignerInfoPropertySet><DesignerProperty Name="ValidateOnBuild" Value="True" /><DesignerProperty Name="EnablePluralization" Value="False" /><DesignerProperty Name="IncludeForeignKeysInModel" Value="True" /><DesignerProperty Name="UseLegacyProvider" Value="False" /><DesignerProperty Name="CodeGenerationStrategy" Value="None" /></DesignerInfoPropertySet></edmx:Options>
+<edmx:Diagrams >
+      <Diagram DiagramId="02508b72c9d74476b01d7f82fc1f303a" Name="Diagram1" >
+        <EntityTypeShape EntityType="ShoppingModelModel.Shop" Width="1.5" PointX="2.5" PointY="1.125" />
+        <EntityTypeShape EntityType="ShoppingModelModel.Product" Width="1.5" PointX="5.125" PointY="1" />
+        <AssociationConnector Association="ShoppingModelModel.ShopProduct" />
+        <EntityTypeShape EntityType="ShoppingModelModel.Category" Width="1.5" PointX="2.375" PointY="4.75" />
+        <AssociationConnector Association="ShoppingModelModel.ShopCategory" />
+        <AssociationConnector Association="ShoppingModelModel.ProductCategory" ManuallyRouted="true" >
+          <ConnectorPoint PointX="5.875" PointY="4.1340950520833326" />
+          <ConnectorPoint PointX="5.875" PointY="5.4485091388759326" />
+          <ConnectorPoint PointX="3.875" PointY="5.4485091388759326" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+</edmx:Designer></edmx:Edmx>

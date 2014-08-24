@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ShoppingModelModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ShoppingModelEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="ShopSet" EntityType="ShoppingModelModel.Shop" />
+    <EntitySet Name="ProductSet" EntityType="ShoppingModelModel.Product" />
+    <AssociationSet Name="ShopProduct" Association="ShoppingModelModel.ShopProduct">
+      <End Role="Shop" EntitySet="ShopSet" />
+      <End Role="Product" EntitySet="ProductSet" />
+    </AssociationSet>
+    <EntitySet Name="CategorySet" EntityType="ShoppingModelModel.Category" />
+    <AssociationSet Name="ShopCategory" Association="ShoppingModelModel.ShopCategory">
+      <End Role="Shop" EntitySet="ShopSet" />
+      <End Role="Category" EntitySet="CategorySet" />
+    </AssociationSet>
+    <AssociationSet Name="ProductCategory" Association="ShoppingModelModel.ProductCategory">
+      <End Role="Product" EntitySet="ProductSet" />
+      <End Role="Category" EntitySet="CategorySet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Shop">
+    <Key>
+      <PropertyRef Name="ShopId" />
+    </Key>
+    <Property Name="ShopId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Culture" Type="String" Nullable="false" />
+    <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Products" Relationship="ShoppingModelModel.ShopProduct" FromRole="Shop" ToRole="Product" />
+    <NavigationProperty Name="Categories" Relationship="ShoppingModelModel.ShopCategory" FromRole="Shop" ToRole="Category" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Unit" Type="String" Nullable="false" />
+    <Property Name="Date" Type="String" Nullable="false" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <Property Name="UnitQuantity" Type="Double" Nullable="false" />
+    <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Shop" Relationship="ShoppingModelModel.ShopProduct" FromRole="Product" ToRole="Shop" />
+    <Property Name="ShopId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="ShoppingModelModel.ProductCategory" FromRole="Product" ToRole="Category" />
+    <Property Name="CategoryId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="ShopProduct">
+    <End Type="ShoppingModelModel.Shop" Role="Shop" Multiplicity="1" />
+    <End Type="ShoppingModelModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shop">
+        <PropertyRef Name="ShopId" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ShopId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Shop" Relationship="ShoppingModelModel.ShopCategory" FromRole="Category" ToRole="Shop" />
+    <Property Name="ShopId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Products" Relationship="ShoppingModelModel.ProductCategory" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <Association Name="ShopCategory">
+    <End Type="ShoppingModelModel.Shop" Role="Shop" Multiplicity="1" />
+    <End Type="ShoppingModelModel.Category" Role="Category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shop">
+        <PropertyRef Name="ShopId" />
+      </Principal>
+      <Dependent Role="Category">
+        <PropertyRef Name="ShopId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductCategory">
+    <End Type="ShoppingModelModel.Product" Role="Product" Multiplicity="*" />
+    <End Type="ShoppingModelModel.Category" Role="Category" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
